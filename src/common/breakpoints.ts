@@ -1,10 +1,11 @@
-const size = {
-  xs: "320px",
-  sm: "768px",
-  lg: "1200px",
-};
+export enum Size {
+  XS = "320px",
+  SM = "768px",
+  LG = "1200px",
+}
+
 export const device = {
-  xs: `(min-width: ${size.xs})`,
-  sm: `(min-width: ${size.sm})`,
-  lg: `(min-width: ${size.lg})`,
+  xs: `(min-width: ${Size.XS})`,
+  sm: `(min-width: ${Size.SM})`,
+  lg: `(min-width: ${Size.LG})`,
 };
