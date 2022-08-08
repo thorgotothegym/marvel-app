@@ -1,35 +1,135 @@
-import React, { useEffect } from "react";
-import { Input, Select, Button, Row, Col } from "antd";
+import React, { useState } from "react";
+import { Input, Select, Button, Row, Col, Table } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { DataFummy, Miau } from "../../Models";
+import { useQuery } from "react-query";
+import { findAll, findByName } from "../../services/Character";
+import { Link, useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
 export const Character = (): JSX.Element => {
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+  const [heroe, setHeroe] = useState<string>("");
+  const [orderBy, setOrderBy] = useState<string>("");
+  const [total, setTotal] = useState<number>(0);
+  let navigate = useNavigate();
+  const handleButton = (value: string) => {
+    setOrderBy(value);
   };
+  const { data, isLoading, refetch, status } = useQuery<DataFummy, Error>(
+    "getData",
+    async () => {
+      return await findByName(heroe, orderBy);
+    },
+    {
+      enabled: false,
+      onSuccess: (res) => {
+        setTotal(res.data.total);
+      },
+      onError: (err) => {
+        console.log(err.message);
+      },
+    }
+  );
+
+  const columns: ColumnsType<Miau> = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      render: (_, record) => (
+        <>
+          <Link to={`/${record.id}`} state={{ record }} className="link">
+            {record.id}
+          </Link>
+        </>
+      ),
+    },
+    {
+      title: "id",
+      dataIndex: "id",
+      render: (_, record) => <>{record.id}</>,
+    },
+    {
+      title: "Thumbnail",
+      dataIndex: "thumbnail",
+      render: (thumbnail, name) => (
+        <>
+          <img
+            alt={name.name}
+            src={`${thumbnail.path}.${thumbnail.extension}`}
+          />
+        </>
+      ),
+    },
+  ];
   return (
     <>
       <Row justify="center" align="middle">
         <Col>
-          <Input placeholder="Basic usage" />
+          <Input
+            value={heroe}
+            onChange={(event) => {
+              setHeroe(event.target.value);
+            }}
+            allowClear
+            placeholder="Search your hero by name (case sensitive)"
+          />
         </Col>
         <Col>
+          <label>Order by:</label>
           <Select
-            defaultValue="lucy"
-            style={{ width: 120 }}
-            onChange={handleChange}
+            defaultValue="name"
+            style={{ width: 220 }}
+            onChange={(value) => {
+              handleButton(value);
+            }}
+            value={orderBy}
           >
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="disabled" disabled>
-              Disabled
-            </Option>
-            <Option value="Yiminghe">yiminghe</Option>
+            <Option value="name">Name in ascending order</Option>
+            <Option value="-name">Name descending order</Option>
+            <Option value="modified">Modified in ascending order</Option>
+            <Option value="-modified">Modified descending order</Option>
           </Select>
         </Col>
         <Col>
-          <Button type="primary">Primary Button</Button>
+          <Button
+            onClick={() => {
+              refetch();
+            }}
+            type="primary"
+          >
+            Primary Button
+          </Button>
         </Col>
+      </Row>
+      <Row justify="center" align="middle">
+        <Col></Col>
+        <Col>
+          <>
+            {isLoading ? (
+              "loading..."
+            ) : (
+              <Table
+                rowKey="name"
+                dataSource={data?.data.results}
+                columns={columns}
+                tableLayout="fixed"
+                onRow={(record, rowIndex) => {
+                  return {
+                    onClick: () => {
+                      console.log("record", record);
+                      navigate(`/${record.id}`, { state: { record } });
+                    },
+                  };
+                }}
+              />
+            )}
+          </>
+        </Col>
+        <Col></Col>
+      </Row>
+      <Row>
+        <Col>{status === "success" ? <>he encontrado {total}</> : null}</Col>
       </Row>
     </>
   );
