@@ -1,8 +1,8 @@
 import api from "../api";
-import { DataFummy } from "../Models";
+import { DataResult, EventSeriesAndStories } from "../Models";
 
 export const findAll = async () => {
-  const response = await api.get<DataFummy>("/characters?");
+  const response = await api.get<DataResult>("/characters?");
   return response.data;
 };
 
@@ -14,7 +14,8 @@ export const findByName = async (nameStartsWith: string, orderBy: string) => {
 };
 
 export const findByID = async (characterId: number) => {
-  const response = await api.get<DataFummy>(`characters/${characterId}`);
-  console.log("findbyid", response.data);
+  const response = await api.get<EventSeriesAndStories>(
+    `characters/${characterId}`
+  );
   return response.data;
 };

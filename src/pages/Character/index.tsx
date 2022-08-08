@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Input, Select, Button, Row, Col, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { DataFummy, Miau } from "../../Models";
+import { DataResult, Results, CommonQueryKeys } from "../../Models";
 import { useQuery } from "react-query";
-import { findAll, findByName } from "../../services/Character";
-import { Link, useNavigate } from "react-router-dom";
+import { findByName } from "../../services/Character";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -16,8 +16,8 @@ export const Character = (): JSX.Element => {
   const handleButton = (value: string) => {
     setOrderBy(value);
   };
-  const { data, isLoading, refetch, status } = useQuery<DataFummy, Error>(
-    "getData",
+  const { data, isLoading, refetch, status } = useQuery<DataResult, Error>(
+    CommonQueryKeys.FINDBYNAME,
     async () => {
       return await findByName(heroe, orderBy);
     },
@@ -32,31 +32,20 @@ export const Character = (): JSX.Element => {
     }
   );
 
-  const columns: ColumnsType<Miau> = [
+  const columns: ColumnsType<Results> = [
     {
       title: "Name",
       dataIndex: "name",
-      render: (_, record) => (
-        <>
-          <Link to={`/${record.id}`} state={{ record }} className="link">
-            {record.id}
-          </Link>
-        </>
-      ),
-    },
-    {
-      title: "id",
-      dataIndex: "id",
-      render: (_, record) => <>{record.id}</>,
+      render: (_, record) => <>{record.name}</>,
     },
     {
       title: "Thumbnail",
       dataIndex: "thumbnail",
-      render: (thumbnail, name) => (
+      render: (_, record) => (
         <>
           <img
-            alt={name.name}
-            src={`${thumbnail.path}.${thumbnail.extension}`}
+            alt={record.name}
+            src={`${record.thumbnail.path}.${record.thumbnail.extension}`}
           />
         </>
       ),
