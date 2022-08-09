@@ -15,6 +15,8 @@ export const Character = (): JSX.Element => {
   const [heroe, setHeroe] = useState<string>("");
   const [orderBy, setOrderBy] = useState<string>("");
   const [total, setTotal] = useState<number>(0);
+  const [error, setError] = useState<string>("");
+
   let navigate = useNavigate();
   const handleButton = (value: string) => {
     setOrderBy(value);
@@ -29,8 +31,8 @@ export const Character = (): JSX.Element => {
       onSuccess: (res) => {
         setTotal(res.data.total);
       },
-      onError: (err) => {
-        console.log(err.message);
+      onError: (err: any) => {
+        setError(err.response.data.status);
       },
     }
   );
@@ -92,24 +94,33 @@ export const Character = (): JSX.Element => {
       <Row justify="center" align="middle">
         <Col></Col>
         <Col>
-          {isLoading ? (
-            "loading..."
-          ) : (
-            <Table
-              rowKey="name"
-              dataSource={data?.data.results}
-              columns={columns}
-              tableLayout="fixed"
-              onRow={(record) => {
-                return {
-                  onClick: () => {
-                    navigate(`/${record.id}`, { state: { record } });
-                  },
-                };
-              }}
-            />
-          )}
-          {status === "success" ? <CounterResults total={total} /> : null}
+          <>
+            {status === "error" ? (
+              <Alert
+                style={{ textAlign: "center" }}
+                message={error}
+                type="error"
+              />
+            ) : null}
+            {isLoading ? (
+              "loading..."
+            ) : (
+              <Table
+                rowKey="name"
+                dataSource={data?.data.results}
+                columns={columns}
+                tableLayout="fixed"
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      navigate(`/${record.id}`, { state: { record } });
+                    },
+                  };
+                }}
+              />
+            )}
+            {status === "success" ? <CounterResults total={total} /> : null}
+          </>
         </Col>
         <Col></Col>
       </Row>
