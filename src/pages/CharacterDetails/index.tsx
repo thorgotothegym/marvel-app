@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { CommonQueryKeys, EventSeriesAndStories } from "../../Models";
 import { findByID } from "../../services/Character";
 import { styles } from "./styles";
+import Link from "antd/lib/typography/Link";
 
 export const CharacterDetails = (): JSX.Element => {
   const { Text } = Typography;
@@ -31,6 +32,12 @@ export const CharacterDetails = (): JSX.Element => {
   return (
     <>
       <Row justify="center" align="middle">
+        {byID.status === "error" ? (
+          <Text type="danger">
+            Wow this is embarrassing... the character you are looking for does
+            not exist. <Link onClick={() => navigate("/")}>Back to list</Link>
+          </Text>
+        ) : null}
         {byID.isLoading ? (
           <Col>Loading...</Col>
         ) : (
