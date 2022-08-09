@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
-import { Col, Descriptions, Divider, Row, Typography } from "antd";
+import { Button, Col, Descriptions, Divider, Row, Typography } from "antd";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { CommonQueryKeys, EventSeriesAndStories } from "../../Models";
 import { findByID } from "../../services/Character";
+import { styles } from "./styles";
 
 export const CharacterDetails = (): JSX.Element => {
   const { Text } = Typography;
   let { id } = useParams();
-
+  const navigate = useNavigate();
   const byID = useQuery<EventSeriesAndStories, Error>(
     CommonQueryKeys.FINDBYID,
     async () => {
@@ -37,6 +38,17 @@ export const CharacterDetails = (): JSX.Element => {
             {byID.data?.data.results.map((item) => {
               return (
                 <div key={item.id}>
+                  <Row>
+                    <Col>
+                      <Button
+                        type="primary"
+                        style={styles.navigation}
+                        onClick={() => navigate(-1)}
+                      >
+                        Go back to the list of characters
+                      </Button>
+                    </Col>
+                  </Row>
                   <Row justify="center" align="middle">
                     <Col span={12}>
                       <img
