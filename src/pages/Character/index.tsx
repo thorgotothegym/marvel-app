@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Input, Select, Button, Row, Col, Table } from "antd";
+import { Input, Select, Button, Row, Col, Table, Alert } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { DataResult, Results, CommonQueryKeys } from "../../Models";
 import { useQuery } from "react-query";
 import { findByName } from "../../services/Character";
 import { useNavigate } from "react-router-dom";
+import { styles } from "./style";
+import { CharacterCard } from "../../components/CharacterCard";
 
 const { Option } = Select;
 
@@ -34,27 +36,22 @@ export const Character = (): JSX.Element => {
 
   const columns: ColumnsType<Results> = [
     {
-      title: "Name",
-      dataIndex: "name",
-      render: (_, record) => <>{record.name}</>,
-    },
-    {
-      title: "Thumbnail",
       dataIndex: "thumbnail",
       render: (_, record) => (
-        <>
-          <img
-            alt={record.name}
-            src={`${record.thumbnail.path}.${record.thumbnail.extension}`}
+        <div style={styles.container}>
+          <CharacterCard
+            description={record.description}
+            name={record.name}
+            thumbnail={record.thumbnail}
           />
-        </>
+        </div>
       ),
     },
   ];
   return (
     <>
       <Row justify="center" align="middle">
-        <Col>
+        <Col style={styles.column.heroe}>
           <Input
             value={heroe}
             onChange={(event) => {
@@ -64,8 +61,8 @@ export const Character = (): JSX.Element => {
             placeholder="Search your hero by name (case sensitive)"
           />
         </Col>
-        <Col>
-          <label>Order by:</label>
+        <Col style={styles.column.orderBy}>
+          <label style={styles.column.label}>Order by:</label>
           <Select
             defaultValue="name"
             style={{ width: 220 }}
@@ -80,7 +77,7 @@ export const Character = (): JSX.Element => {
             <Option value="-modified">Modified descending order</Option>
           </Select>
         </Col>
-        <Col>
+        <Col style={styles.column.search}>
           <Button
             onClick={() => {
               refetch();
@@ -94,31 +91,32 @@ export const Character = (): JSX.Element => {
       <Row justify="center" align="middle">
         <Col></Col>
         <Col>
-          <>
-            {isLoading ? (
-              "loading..."
-            ) : (
-              <Table
-                rowKey="name"
-                dataSource={data?.data.results}
-                columns={columns}
-                tableLayout="fixed"
-                onRow={(record, rowIndex) => {
-                  return {
-                    onClick: () => {
-                      console.log("record", record);
-                      navigate(`/${record.id}`, { state: { record } });
-                    },
-                  };
-                }}
-              />
-            )}
-          </>
+          {isLoading ? (
+            "loading..."
+          ) : (
+            <Table
+              rowKey="name"
+              dataSource={data?.data.results}
+              columns={columns}
+              tableLayout="fixed"
+              onRow={(record) => {
+                return {
+                  onClick: () => {
+                    navigate(`/${record.id}`, { state: { record } });
+                  },
+                };
+              }}
+            />
+          )}
+          {status === "success" ? (
+            <Alert
+              style={{ textAlign: "center" }}
+              type="success"
+              message={`${20} matches have been found with your search`}
+            />
+          ) : null}
         </Col>
         <Col></Col>
-      </Row>
-      <Row>
-        <Col>{status === "success" ? <>he encontrado {total}</> : null}</Col>
       </Row>
     </>
   );

@@ -50,6 +50,7 @@ export interface Results {
   series?: SeriesList;
   stories?: StoryList;
   name: string;
+  description?: string;
   id: string;
 }
 
