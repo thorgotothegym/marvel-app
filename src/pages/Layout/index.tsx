@@ -11,7 +11,7 @@ const Layout = (): JSX.Element => {
     <>
       <Theme>
         <CustomHeader />
-        <Content>
+        <Content style={{ margin: "40px" }}>
           <Outlet />
         </Content>
       </Theme>
