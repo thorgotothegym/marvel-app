@@ -7,6 +7,7 @@ import { findByName } from "../../services/Character";
 import { useNavigate } from "react-router-dom";
 import { styles } from "./style";
 import { CharacterCard } from "../../components/CharacterCard";
+import { CounterResults } from "../../components/CounterResults";
 
 const { Option } = Select;
 
@@ -108,13 +109,7 @@ export const Character = (): JSX.Element => {
               }}
             />
           )}
-          {status === "success" ? (
-            <Alert
-              style={{ textAlign: "center" }}
-              type="success"
-              message={`${20} matches have been found with your search`}
-            />
-          ) : null}
+          {status === "success" ? <CounterResults total={total} /> : null}
         </Col>
         <Col></Col>
       </Row>
