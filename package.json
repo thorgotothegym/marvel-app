@@ -47,6 +47,7 @@
     ]
   },
   "devDependencies": {
-    "@types/md5": "^2.3.2"
+    "@types/md5": "^2.3.2",
+    "@types/styled-components": "^5.1.25"
   }
 }
