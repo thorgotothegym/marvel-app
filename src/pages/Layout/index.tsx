@@ -10,7 +10,7 @@ const { Content } = Theme;
 const Layout = (): JSX.Element => {
   return (
     <>
-      <Theme>
+      <Theme data-testid="theme">
         <CustomHeader />
         <Content style={styles.content}>
           <Outlet />
