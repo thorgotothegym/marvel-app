@@ -18,9 +18,7 @@ export const CharacterDetails = (): JSX.Element => {
     },
     {
       enabled: false,
-      onSuccess: (res) => {
-        console.log("res", res);
-      },
+      onSuccess: (res) => {},
       onError: (err) => {
         console.log(err.message);
       },

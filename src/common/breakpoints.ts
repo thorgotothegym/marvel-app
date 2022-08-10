@@ -1,8 +1,11 @@
 const size = {
-  sm: "576px",
-  md: "768px",
-  lg: "992px",
-  xl: "1200px",
+  mobileS: "320px",
+  mobileM: "375px",
+  mobileL: "425px",
+  tablet: "768px",
+  laptop: "1024px",
+  laptopL: "1440px",
+  desktop: "2560px",
 };
 
 export const device = (Object.keys(size) as Array<keyof typeof size>).reduce(

@@ -8,9 +8,26 @@ export const styles = {
 };
 
 export const Wrapper = styled.div`
-  background-color: red;
-  width: 100%;
-  ${device.md`
-       background-color: pink;
+  img {
+    width: 100%;
+    padding: 20px;
+  }
+  ${device.laptop`
+       img {
+        object-fit: cover;
+        width: 750px;
+       }
+    `};
+  ${device.laptopL`
+       img {
+        object-fit: cover;
+        width: 750px;
+       }
+    `};
+  ${device.desktop`
+       img {
+        object-fit: cover;
+        width: 750px;
+       }
     `};
 `;
