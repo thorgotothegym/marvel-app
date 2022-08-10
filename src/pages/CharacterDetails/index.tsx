@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Col, Descriptions, Divider, Row, Typography } from "antd";
+import { Button, Col, Descriptions, Divider, Typography } from "antd";
 import { useQuery } from "react-query";
 import { useParams, useNavigate } from "react-router-dom";
 import { CommonQueryKeys, EventSeriesAndStories } from "../../Models";
