@@ -8,7 +8,7 @@ import { styles } from "./styles";
 export const CustomHeader = (): JSX.Element => {
   return (
     <Header style={styles}>
-      <Image width={100} src={logo} />
+      <Image width={100} src={logo} alt="logo marvel" />
     </Header>
   );
 };
