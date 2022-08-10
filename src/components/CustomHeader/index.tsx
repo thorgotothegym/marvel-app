@@ -1,15 +1,14 @@
 import React from "react";
 
 import { Header } from "antd/lib/layout/layout";
-import image from "../../assets/Marvel_Logo.svg";
+import { Image } from "antd";
+import logo from "../../assets/Marvel_Logo.svg";
+import { styles } from "./styles";
 
 export const CustomHeader = (): JSX.Element => {
   return (
-    <Header>
-      logo
-      {/*       <div style={{ display: "flex", alignItems: "center" }}>
-        <img src={image} alt="logo marvel" width="300" />
-      </div> */}
+    <Header style={styles}>
+      <Image width={100} src={logo} />
     </Header>
   );
 };
