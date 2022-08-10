@@ -1,3 +1,6 @@
+import styled from "styled-components";
+import { device } from "../../common/breakpoints";
+
 export const styles = {
   container: {
     display: "flex",

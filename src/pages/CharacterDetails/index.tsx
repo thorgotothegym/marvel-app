@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { useParams, useNavigate } from "react-router-dom";
 import { CommonQueryKeys, EventSeriesAndStories } from "../../Models";
 import { findByID } from "../../services/Character";
-import { styles } from "./styles";
+import { styles, Wrapper } from "./styles";
 import Link from "antd/lib/typography/Link";
 
 export const CharacterDetails = (): JSX.Element => {
@@ -58,12 +58,14 @@ export const CharacterDetails = (): JSX.Element => {
                   </Row>
                   <Row justify="center" align="middle">
                     <Col span={12}>
-                      <img
-                        src={
-                          item.thumbnail.path + "." + item.thumbnail.extension
-                        }
-                        alt={item.name}
-                      />
+                      <Wrapper>
+                        <img
+                          src={
+                            item.thumbnail.path + "." + item.thumbnail.extension
+                          }
+                          alt={item.name}
+                        />
+                      </Wrapper>
                     </Col>
                     <Col span={12}>
                       {item.name ? (
