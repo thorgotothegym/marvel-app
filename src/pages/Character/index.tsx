@@ -87,7 +87,7 @@ export const Character = (): JSX.Element => {
             }}
             type="primary"
           >
-            Primary Button
+            Search
           </Button>
         </Col>
       </Row>
